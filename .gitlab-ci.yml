@@ -1,0 +1,38 @@
+image: docker:git
+
+stages:
+  - build
+  - deploy
+
+services:
+  - docker:dind
+
+build_deploy:
+  stage: build
+  only:
+    - master
+  script:
+    - docker build -f Dockerfile .
+  artifacts:
+    paths:
+      - build/mobile
+ 
+# stages:
+#   - build
+#   - deploy
+
+# deploy-prod:
+#   stage: deploy
+#   image: andreysenov/firebase-tools:8.9.0
+#   only:
+#     - master
+#   script:
+#     - firebase use cvgue-nih --token $FIREBASE_TOKEN
+#     - firebase deploy --only hosting -m "Pipsdfjlskfj" --token $FIREBASE_TOKEN
+
+# # deploy-prod:
+# #   stage: deploy
+# #   only:
+# #     - master
+# #   script:
+# #     - firebase deploy --only hosting -m "Pipe $CI_PIPELINE_ID Build $CI_BUILD_ID" --token $FIREBASE_TOKEN
